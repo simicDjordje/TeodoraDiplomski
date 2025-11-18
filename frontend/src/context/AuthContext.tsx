@@ -116,10 +116,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const register = async (userData: RegisterData) => {
     try {
       const response = await api.post('/auth/register', userData);
+      // Backend vraća UserPublic model
       const newUser = response.data;
       setUser(newUser);
-      // Nakon registracije, možemo automatski ulogovati korisnika
-      // ili ostaviti da se ručno uloguje
+      // Vraćamo response da stranica može da koristi podatke
+      return response.data;
     } catch (error: any) {
       throw new Error(error.response?.data?.detail || 'Greška pri registraciji');
     }

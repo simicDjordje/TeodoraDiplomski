@@ -57,9 +57,14 @@ const RegisterOrg = () => {
     setLoading(true);
 
     try {
-      await organisationsService.registerOrganisation(formData);
-      alert('Organizacija je uspešno registrovana! Čeka odobrenje administratora.');
-      navigate('/org/login');
+      const response = await organisationsService.registerOrganisation(formData);
+      // Backend vraća: {"message": "...", "id": org_id}
+      // Uspešna registracija - redirect na login sa porukom
+      navigate('/org/login', { 
+        state: { 
+          message: response.message || 'Organizacija je uspešno registrovana! Čeka odobrenje administratora.' 
+        } 
+      });
     } catch (err: any) {
       setError(err.response?.data?.detail || 'Greška pri registraciji organizacije');
     } finally {

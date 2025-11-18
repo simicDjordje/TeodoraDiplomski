@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+import { useNavigate, Link, useLocation } from 'react-router-dom';
 import {
   Card,
   CardHeader,
@@ -14,9 +14,20 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    // Proveri da li postoji success poruka iz state-a
+    if (location.state?.message) {
+      setSuccess(location.state.message);
+      // Očisti state da se ne prikazuje ponovo
+      window.history.replaceState({}, document.title);
+    }
+  }, [location]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -47,6 +58,11 @@ const Login = () => {
             {error && (
               <div className="p-3 bg-danger-50 text-danger text-sm rounded-lg">
                 {error}
+              </div>
+            )}
+            {success && (
+              <div className="p-3 bg-success-50 text-success text-sm rounded-lg">
+                {success}
               </div>
             )}
             <Input

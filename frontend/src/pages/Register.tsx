@@ -65,7 +65,7 @@ const Register = () => {
     setLoading(true);
 
     try {
-      await register({
+      const response = await register({
         email: formData.email,
         username: formData.username,
         password: formData.password,
@@ -78,7 +78,9 @@ const Register = () => {
         skills: formData.skills,
         experience: formData.experience || undefined,
       });
-      navigate('/login');
+      // Backend vraća UserPublic model
+      // Uspešna registracija - redirect na login
+      navigate('/login', { state: { message: 'Registracija uspešna! Sada se možete prijaviti.' } });
     } catch (err: any) {
       setError(err.message || 'Greška pri registraciji');
     } finally {
