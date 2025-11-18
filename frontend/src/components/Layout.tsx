@@ -88,6 +88,11 @@ const Layout = ({ children }: LayoutProps) => {
                   Registruj se
                 </Button>
               </NavbarItem>
+              <NavbarItem className="hidden md:flex">
+                <Link href="/org/register" className="text-sm text-default-500">
+                  Registruj organizaciju
+                </Link>
+              </NavbarItem>
             </>
           )}
         </NavbarContent>
